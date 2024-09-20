@@ -2,7 +2,7 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-Projeto_Jogo_De_Xadres.iml
+Projeto_Jogo_De_Xadrez.iml
 
 ### Eclipse ###
 .apt_generated
