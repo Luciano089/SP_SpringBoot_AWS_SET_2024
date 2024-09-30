@@ -1,12 +1,10 @@
 package db;
 
-
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
+
 
 public class DB {
 
@@ -38,7 +36,7 @@ public class DB {
     }
 
     private static Properties loadProperties() {
-        try (FileInputStream fs = new FileInputStream("db.properties")) {
+        try (FileInputStream fs = new FileInputStream("C:\\Compass_Uol_Trilha\\SP_SpringBoot_AWS_SET_2024\\Semana-03\\Projeto_JDBC\\db.properties")) {
             Properties props = new Properties();
             props.load(fs);
             return props;
@@ -47,5 +45,23 @@ public class DB {
         }
     }
 
-    ;
+    public static void closeStatment(Statement stmt) {
+        if(stmt != null) {
+            try {
+                stmt.close();
+            } catch (SQLException e) {
+                throw new dbException(e.getMessage());
+            }
+        }
+    }
+
+    public static void closeResultSet(ResultSet rs) {
+        if(rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                throw new dbException(e.getMessage());
+            }
+        }
+    }
 }
