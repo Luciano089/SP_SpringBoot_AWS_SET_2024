@@ -22,6 +22,29 @@ public class SellerDaoJdbc implements SellerDao {
 
     @Override
     public void update(Seller obj) {
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(
+                    "UPDATE seller "
+                            + " SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? "
+                            + "WHERE Id = ?" );
+
+            stmt.setString(1, obj.getName());
+            stmt.setString(2, obj.getEmail());
+            stmt.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+            stmt.setDouble(4, obj.getBaseSalary());
+            stmt.setInt(5, obj.getDepartment().getId());
+            stmt.setInt(6, obj.getId());
+
+            stmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            throw new dbException(e.getMessage());
+        } finally {
+            DB.closeStatment(stmt);
+        }
+
 
     }
 
@@ -32,7 +55,7 @@ public class SellerDaoJdbc implements SellerDao {
             stmt = conn.prepareStatement(
                     "INSERT INTO seller \n" +
                             "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
-                            +  "VALUES "
+                            + "VALUES "
                             + "(?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, obj.getName());
@@ -64,6 +87,17 @@ public class SellerDaoJdbc implements SellerDao {
 
     @Override
     public void deleteById(Integer id) {
+        PreparedStatement stmt = null;
+
+        try {
+            stmt = conn.prepareStatement("DELETE from seller WHERE id = ? ");
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+                throw new dbException(e.getMessage());
+        } finally {
+            DB.closeStatment(stmt);
+        }
 
     }
 
