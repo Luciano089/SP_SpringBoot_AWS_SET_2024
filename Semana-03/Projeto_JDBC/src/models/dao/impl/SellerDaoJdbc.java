@@ -6,10 +6,7 @@ import models.dao.SellerDao;
 import models.entities.Department;
 import models.entities.Seller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +27,38 @@ public class SellerDaoJdbc implements SellerDao {
 
     @Override
     public void insert(Seller obj) {
+        PreparedStatement stmt = null;
+        try {
+            stmt = conn.prepareStatement(
+                    "INSERT INTO seller \n" +
+                            "(Name, Email, BirthDate, BaseSalary, DepartmentId) "
+                            +  "VALUES "
+                            + "(?, ?, ?, ?, ?) ", Statement.RETURN_GENERATED_KEYS);
+
+            stmt.setString(1, obj.getName());
+            stmt.setString(2, obj.getEmail());
+            stmt.setDate(3, new java.sql.Date(obj.getBirthDate().getTime()));
+            stmt.setDouble(4, obj.getBaseSalary());
+            stmt.setInt(5, obj.getDepartment().getId());
+
+            int rowsAffected = stmt.executeUpdate();
+            if (rowsAffected > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    int id = rs.getInt(1);
+
+                    obj.setId(id);
+                }
+                DB.closeResultSet(rs);
+            } else {
+                throw new dbException("Insert failed");
+            }
+
+        } catch (SQLException e) {
+            throw new dbException(e.getMessage());
+        } finally {
+            DB.closeStatment(stmt);
+        }
 
     }
 
