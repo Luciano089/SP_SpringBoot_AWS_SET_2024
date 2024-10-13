@@ -43,6 +43,10 @@ public class TestConfig implements CommandLineRunner {
         Product product2 = new Product(null,"Smart TV", "Lorem ipsum dolor sit amet, consectetur", 9000.5, "");
         Product product3 = new Product(null, "MacBook", "Lorem ipsum dolor sit amet, consectetur", 8270.5, "");
 
+        product1.getCategories().add(category2);
+        product2.getCategories().add(category3);
+        product3.getCategories().add(category1);
+
         productRepository.saveAll(Arrays.asList(product1, product2, product3));
 
         User user1 = new User(null, "Luciano", "Luciano@gmail.com", "8381919", "7192712222");
