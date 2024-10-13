@@ -1,7 +1,7 @@
 package com.example.springCourse.Resources;
 
 import com.example.springCourse.Entities.User;
-import com.example.springCourse.Repositories.UserRepository;
+
 import com.example.springCourse.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
