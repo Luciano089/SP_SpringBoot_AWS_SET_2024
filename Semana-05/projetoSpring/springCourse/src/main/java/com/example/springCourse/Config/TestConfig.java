@@ -1,14 +1,8 @@
 package com.example.springCourse.Config;
 
-import com.example.springCourse.Entities.Category;
-import com.example.springCourse.Entities.Order;
-import com.example.springCourse.Entities.Product;
-import com.example.springCourse.Entities.User;
+import com.example.springCourse.Entities.*;
 import com.example.springCourse.Entities.enums.OrderStatus;
-import com.example.springCourse.Repositories.CategoryRepository;
-import com.example.springCourse.Repositories.OrderRepository;
-import com.example.springCourse.Repositories.ProductRepository;
-import com.example.springCourse.Repositories.UserRepository;
+import com.example.springCourse.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +22,12 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -57,8 +55,14 @@ public class TestConfig implements CommandLineRunner {
         Order order1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"),user1, OrderStatus.PAID);
         Order order2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), user2, OrderStatus.WAITING_PAYMENT);
         Order order3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), user3, OrderStatus.CANCELED);
-
         orderRepository.saveAll(Arrays.asList(order1, order2));
+
+        OrderItem orderItem1 = new OrderItem(order1, product1, 2, product1.getPrice());
+        OrderItem orderItem2 = new OrderItem(order1, product3, 1, product3.getPrice());
+        OrderItem orderItem3 = new OrderItem(order2, product3, 2, product3.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(orderItem1, orderItem2, orderItem3));
+
 
 
     }
