@@ -3,11 +3,14 @@ package lucianosena.librarymongo.domain;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+@Document(collection = "books")
 public class Book implements Serializable {
     private String name;
     private String author;
@@ -16,12 +19,12 @@ public class Book implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     public Book() {
     }
 
-    public Book(String name, String author, Date publicationDate, String gender, Long id) {
+    public Book(String name, String author, Date publicationDate, String gender, String id) {
         this.name = name;
         this.author = author;
         this.publicationDate = publicationDate;
@@ -59,6 +62,14 @@ public class Book implements Serializable {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @Override
