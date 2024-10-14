@@ -17,4 +17,10 @@ import java.util.function.Function;
 
 @Repository
 public interface BookRepository extends MongoRepository<Book, String> {
+    Optional<Book> findByName(String name);
+
+    void deleteByName(String name);
+
+    List<Book> findByAuthor(String author);
+
 }

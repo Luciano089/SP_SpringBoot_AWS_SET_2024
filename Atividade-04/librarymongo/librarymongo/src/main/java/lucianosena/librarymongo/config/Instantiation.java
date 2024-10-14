@@ -23,9 +23,11 @@ public class Instantiation implements CommandLineRunner {
         String data = "29/01/2005";
         Date dataFormated = formatoData.parse(data);
 
-        Book book1 = new Book("Senhor dos misterios", "Não sei", dataFormated, "Mystery", null);
-        Book book2 = new Book("Declinio de um homem", "Osamu Dazai", dataFormated, "Mystery", null);
-        bookRepository.saveAll(Arrays.asList(book1, book2));
+        Book book1 = new Book("1984", "George Orwell", formatoData.parse("08/06/1949"), "Ficção Científica", null);
+        Book book2 = new Book("Dom Casmurro", "Machado de Assis", formatoData.parse("01/01/1899"), "Romance", null);
+        Book book3 = new Book("The Lord of the Rings", "J.R.R. Tolkien", formatoData.parse("29/07/1954"), "Fantasia", null);
+        Book book4 = new Book("Animal Farm", "George Orwell", formatoData.parse("17/08/1945"), "Fábula", null);
+        bookRepository.saveAll(Arrays.asList(book1, book2, book3, book4));
 
     }
 }
