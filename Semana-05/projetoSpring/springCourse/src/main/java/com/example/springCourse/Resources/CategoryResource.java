@@ -1,7 +1,8 @@
 package com.example.springCourse.Resources;
 
+import com.example.springCourse.Entities.Category;
 import com.example.springCourse.Entities.User;
-
+import com.example.springCourse.Services.CategoryService;
 import com.example.springCourse.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,20 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(value = "/categories")
+public class CategoryResource {
     @Autowired // o Autowired faz a injeção de dependência
-    private UserService service;
+    private CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll() {
-        List<User> list = service.findAll();
+    public ResponseEntity<List<Category>> findAll() {
+        List<Category> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
-        User obj = service.FindById(id);
+    public ResponseEntity<Category> findById(@PathVariable Long id) {
+        Category obj = service.FindById(id);
         return ResponseEntity.ok().body(obj);
     }
 
