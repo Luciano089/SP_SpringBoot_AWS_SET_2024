@@ -1,6 +1,7 @@
 package com.luciano.demo_park_api.service;
 
 import com.luciano.demo_park_api.entity.User;
+import com.luciano.demo_park_api.exception.UserNameUniqueViolationException;
 import com.luciano.demo_park_api.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,12 @@ public class UserService {
 
     @Transactional
     public User save(User user) {
+       try {
+
         return userRepository.save(user);
+       } catch (Exception e) {
+           e.printStackTrace();
+       } throw new UserNameUniqueViolationException(String.format("Username {%s} already registered", user.getUsername()));
     }
 
     @Transactional
