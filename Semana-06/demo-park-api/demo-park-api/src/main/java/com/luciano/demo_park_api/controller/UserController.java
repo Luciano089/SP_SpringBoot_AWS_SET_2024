@@ -1,9 +1,15 @@
 package com.luciano.demo_park_api.controller;
 
+import com.luciano.demo_park_api.controller.dto.UserCreateDto;
+import com.luciano.demo_park_api.controller.dto.UserPasswordDto;
+import com.luciano.demo_park_api.controller.dto.UserResponseDto;
+import com.luciano.demo_park_api.controller.dto.mapper.UserMapper;
 import com.luciano.demo_park_api.entity.User;
 import com.luciano.demo_park_api.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,27 +23,27 @@ public class UserController {
 
 
     @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User userToSave = userService.save(user);
-        return ResponseEntity.ok().body(userToSave);
+    public ResponseEntity<UserResponseDto> createUser(@Valid @RequestBody UserCreateDto createDto) {
+        User user = userService.save(UserMapper.toUser(createDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(user));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok(UserMapper.toDto(user));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> updatePassword(@PathVariable Long id, @RequestBody User user) {
-        User updatePassword = userService.updatePassword(id, user.getPassword());
-        return ResponseEntity.ok().body(updatePassword);
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updatePassword(@Valid @PathVariable Long id, @RequestBody UserPasswordDto dto) {
+        User user = userService.updatePassword(id, dto.getCurrentPassword(), dto.getNewPassword(), dto.getConfirmPassword());
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping()
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         List<User> users = userService.findAll();
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(UserMapper.toListDto(users));
     }
 
 }

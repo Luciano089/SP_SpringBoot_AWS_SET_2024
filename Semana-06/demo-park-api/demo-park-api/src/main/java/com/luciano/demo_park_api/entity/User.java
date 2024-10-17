@@ -26,7 +26,7 @@ public class User implements Serializable {
 
     @Enumerated(EnumType.STRING) // transforma o nome da constante em uma string
     @Column(name = "role", nullable = false, length = 25)
-    private Role Role;
+    private Role role = Role.ROLE_CLIENT;
 
     @Column(name = "date_creation")
     private LocalDateTime dateCreation;
@@ -39,6 +39,7 @@ public class User implements Serializable {
 
     @Column(name = "updated_by")
     private String updatedBy;
+
 
     public enum Role {
         ROLE_ADMIN,
