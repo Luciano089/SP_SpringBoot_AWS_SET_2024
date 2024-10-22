@@ -1,10 +1,10 @@
-package com.luciano.demo_park_api;
+package Luciano.rest_api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoParkApiApplicationTests {
+class RestApiApplicationTests {
 
 	@Test
 	void contextLoads() {
